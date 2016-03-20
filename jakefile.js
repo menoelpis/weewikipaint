@@ -2,11 +2,6 @@
 
 "use strict";
 
-desc("Build and test");
-task("default", ["lint"]);
-
-desc("Lint everything");
-
 function nodeLintOptions() {
     return {
         bitwise: true,
@@ -27,6 +22,11 @@ function nodeLintOptions() {
     };
 }
 
+
+desc("Build and test");
+task("default", ["lint", "test"]);
+
+desc("Lint everything");
 task("lint", [], function () {
     var lint = require("./build/lint/lint_runner.js");
 
@@ -36,6 +36,11 @@ task("lint", [], function () {
     var options = nodeLintOptions();
     var passed = lint.validateFileList(files.toArray(), options, {});
     if (!passed) fail("Lint failed");
+});
+
+desc("Test everything");
+task("test", [], function() {
+   console.log("test goes here");
 });
 
 desc("Integrate");
@@ -50,6 +55,7 @@ task("integrate", ["default"], function() {
     console.log("4. 'git merge master --no-ff --log'");
     console.log("5. 'git checkout master'");
 });
+
 
 
 
