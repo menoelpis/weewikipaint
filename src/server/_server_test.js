@@ -4,8 +4,18 @@
 "use strict";
 
 var server = require("./server.js");
+var http = require("http");
 
-exports.testNothing = function (test) {
-    test.equals(3, server.number(), "number");
-    test.done();
+exports.tearDown = function(done) {
+    server.stop(function() {
+        done();
+    });
+};
+
+exports.testServerRespondsToGetRequest = function(test) {
+    server.start();
+
+    http.get("http://localhost:8080", function(response) {
+        test.done();
+    });
 };
